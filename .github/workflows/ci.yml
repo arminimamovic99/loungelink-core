@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [develop, main]
+  push:
+    branches: [develop, main]
+
+jobs:
+  checks:
+    name: typecheck, lint, build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build
+        env:
+          # The build never talks to Supabase at build time (every page is
+          # force-dynamic), these just satisfy the env var checks in
+          # lib/supabase/env.ts so the build step doesn't fail on missing vars.
+          NEXT_PUBLIC_SUPABASE_URL: https://dummy.supabase.co
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: dummy-build-time-key
+          SUPABASE_SERVICE_ROLE_KEY: dummy-build-time-key
+          PRINTER_IP: 127.0.0.1
+          PRINTER_PORT: 9100
