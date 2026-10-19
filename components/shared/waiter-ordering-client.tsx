@@ -315,7 +315,7 @@ export function WaiterOrderingClient({ tables, products, shishaFlavors, activeOr
 
   function getOrderTotal(order: StationOrder) {
     return (order.order_items ?? []).reduce((sum, item) => {
-      const price = item.products?.price ?? 0;
+      const price = item.unit_price ?? item.products?.price ?? 0;
       return sum + item.qty * price;
     }, 0);
   }

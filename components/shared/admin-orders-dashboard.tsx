@@ -14,6 +14,7 @@ type AdminOrderItem = {
   id: string;
   qty: number;
   note: string | null;
+  unit_price: number;
   products: {
     id: string;
     name: string;
@@ -164,7 +165,7 @@ export function AdminOrdersDashboard({
   const orderCount = matchingOrders.length;
   const totalRevenue = matchingOrders.reduce((sum, order) => {
     const subtotal = (order.order_items ?? []).reduce((acc, item) => {
-      const price = item.products?.price ?? 0;
+      const price = item.unit_price ?? item.products?.price ?? 0;
       return acc + item.qty * price;
     }, 0);
     return sum + subtotal;
@@ -207,7 +208,7 @@ export function AdminOrdersDashboard({
 
   function getOrderTotal(order: AdminOrder) {
     return (order.order_items ?? []).reduce((sum, item) => {
-      const price = item.products?.price ?? 0;
+      const price = item.unit_price ?? item.products?.price ?? 0;
       return sum + item.qty * price;
     }, 0);
   }
