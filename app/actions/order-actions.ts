@@ -74,13 +74,14 @@ export async function createOrderAction(input: unknown) {
   const productIds = parsed.data.items.map((i) => i.productId);
   const { data: products, error: productError } = (await supabase
     .from('products')
-    .select('id, category, is_available')
+    .select('id, category, is_available, price')
     .in('id', productIds)) as {
     data:
       | {
           id: string;
           category: 'drink' | 'shisha';
           is_available: boolean;
+          price: number;
         }[]
       | null;
     error: { message: string } | null;
@@ -222,6 +223,7 @@ export async function createOrderAction(input: unknown) {
       qty: item.qty,
       is_new: !createdNewOrder,
       note: item.note?.trim() || null,
+      unit_price: productMap.get(item.productId)!.price,
     }))
   );
 

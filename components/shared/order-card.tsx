@@ -11,6 +11,7 @@ export type StationOrderItem = {
   qty: number;
   is_new?: boolean;
   note: string | null;
+  unit_price?: number;
   products: {
     name: string;
     category: ProductCategory;
