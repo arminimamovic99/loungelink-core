@@ -21,6 +21,7 @@ type DashboardOrder = {
         id: string;
         qty: number;
         note: string | null;
+        unit_price: number;
         products: {
           id: string;
           name: string;

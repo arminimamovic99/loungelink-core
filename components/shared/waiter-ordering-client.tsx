@@ -13,6 +13,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { formatCurrency, formatDateTime } from '@/lib/format';
 import { createClient } from '@/lib/supabase/client';
 import { CircleX, Loader2 } from 'lucide-react';
+import { toast } from 'sonner';
 
 interface WaiterOrderingClientProps {
   tables: TableOption[];
@@ -259,6 +260,7 @@ export function WaiterOrderingClient({ tables, products, shishaFlavors, activeOr
         }
 
         setFeedback('Narudžba je poslana.');
+        toast.success('Narudžba kreirana.', { duration: 3000 });
         setItems([]);
         setTableId('');
         setPickerResetNonce((prev) => prev + 1);
@@ -313,7 +315,7 @@ export function WaiterOrderingClient({ tables, products, shishaFlavors, activeOr
 
   function getOrderTotal(order: StationOrder) {
     return (order.order_items ?? []).reduce((sum, item) => {
-      const price = item.products?.price ?? 0;
+      const price = item.unit_price ?? item.products?.price ?? 0;
       return sum + item.qty * price;
     }, 0);
   }

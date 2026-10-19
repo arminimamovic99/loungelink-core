@@ -66,7 +66,7 @@ export async function getWaiterOrders() {
   const { data, error } = await supabase
     .from('orders')
     .select(
-      'id, status, table_id, created_at, tables(number), order_station_status(bar_status, shisha_status), order_items(id, qty, is_new, note, products(name, category, price))'
+      'id, status, table_id, created_at, tables(number), order_station_status(bar_status, shisha_status), order_items(id, qty, is_new, note, unit_price, products(name, category, price))'
     )
     .in('status', ['new', 'in_progress', 'completed'])
     .is('closed_at', null)
@@ -86,7 +86,7 @@ export async function getStationOrders(station: ProductCategory) {
   const { data, error } = await supabase
     .from('orders')
     .select(
-      'id, status, table_id, created_at, tables(number), order_station_status(bar_status, shisha_status), order_items(id, qty, is_new, note, products(name, category, price))'
+      'id, status, table_id, created_at, tables(number), order_station_status(bar_status, shisha_status), order_items(id, qty, is_new, note, unit_price, products(name, category, price))'
     )
     .is('closed_at', null)
     .in('status', ['new', 'in_progress'])
@@ -106,7 +106,7 @@ export async function getAdminOrders(view: 'today' | 'week', status: 'all' | 'ne
   let query = supabase
     .from('orders')
     .select(
-      'id, status, created_at, table_id, tables(number), order_station_status(bar_status, shisha_status), order_items(qty, is_new, note, products(name, category, price))'
+      'id, status, created_at, table_id, tables(number), order_station_status(bar_status, shisha_status), order_items(qty, is_new, note, unit_price, products(name, category, price))'
     )
     .gte('created_at', from.toISOString())
     .order('created_at', { ascending: false });
@@ -126,7 +126,7 @@ export async function getAdminOrdersDataset() {
   const { data, error } = await supabase
     .from('orders')
     .select(
-      'id, status, created_at, closed_at, table_id, tables(number), order_station_status(bar_status, shisha_status), order_items(id, qty, note, products(id, name, category, price))'
+      'id, status, created_at, closed_at, table_id, tables(number), order_station_status(bar_status, shisha_status), order_items(id, qty, note, unit_price, products(id, name, category, price))'
     )
     .order('created_at', { ascending: false });
 

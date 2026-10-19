@@ -160,6 +160,7 @@ export type Database = {
           qty: number;
           is_new: boolean;
           note: string | null;
+          unit_price: number;
           created_at: string;
         };
         Insert: {
@@ -169,12 +170,14 @@ export type Database = {
           qty?: number;
           is_new?: boolean;
           note?: string | null;
+          unit_price: number;
           created_at?: string;
         };
         Update: {
           qty?: number;
           is_new?: boolean;
           note?: string | null;
+          unit_price?: number;
         };
         Relationships: [];
       };
