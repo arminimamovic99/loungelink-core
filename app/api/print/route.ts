@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
       .eq('id', user.id)
       .single();
 
-    if (profileError || !profile || !['shisha'].includes(profile.role)) {
+    if (profileError || !profile || !['shisha', 'admin'].includes(profile.role)) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
